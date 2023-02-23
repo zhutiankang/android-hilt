@@ -31,13 +31,13 @@ import javax.inject.Inject
  * Container for the Buttons & Logs fragments. This activity simply tracks clicks on buttons.
  */
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     @Inject lateinit var navigator: AppNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+//        setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
             navigator.navigateTo(Screens.BUTTONS)

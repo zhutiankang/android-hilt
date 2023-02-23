@@ -46,6 +46,10 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -69,4 +73,7 @@ dependencies {
     // Hilt dependencies
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.6'
+
 }

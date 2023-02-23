@@ -25,10 +25,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.android.hilt.LogApplication
 import com.example.android.hilt.R
 import com.example.android.hilt.data.Log
 import com.example.android.hilt.data.LoggerLocalDataSource
+import com.example.android.hilt.databinding.FragmentLogsBinding
+import com.example.android.hilt.databinding.TextRowItemBinding
 import com.example.android.hilt.util.DateFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -40,23 +44,29 @@ import javax.inject.Inject
 class LogsFragment : Fragment(R.layout.fragment_logs) {
 
     //由 Hilt 注入的字段不能是私有字段
-    @Inject lateinit var logger: LoggerLocalDataSource
-    @Inject lateinit var dateFormatter: DateFormatter
+    @Inject
+    lateinit var logger: LoggerLocalDataSource
 
-    private lateinit var recyclerView: RecyclerView
+    @Inject
+    lateinit var dateFormatter: DateFormatter
+
+//    private lateinit var recyclerView: RecyclerView
+
+    private val binding: FragmentLogsBinding by viewBinding()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
-            setHasFixedSize(true)
-        }
+//        recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
+//            setHasFixedSize(true)
+//        }
+        binding.recyclerView.setHasFixedSize(true)
     }
 
     override fun onResume() {
         super.onResume()
 
         logger.getAllLogs { logs ->
-            recyclerView.adapter =
+            binding.recyclerView.adapter =
                 LogsViewAdapter(
                     logs,
                     dateFormatter
@@ -73,12 +83,11 @@ private class LogsViewAdapter(
     private val daterFormatter: DateFormatter
 ) : RecyclerView.Adapter<LogsViewAdapter.LogsViewHolder>() {
 
-    class LogsViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
+    class LogsViewHolder(val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogsViewHolder {
         return LogsViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.text_row_item, parent, false) as TextView
+            TextRowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -88,7 +97,8 @@ private class LogsViewAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: LogsViewHolder, position: Int) {
+        val binding = holder.binding as TextRowItemBinding
         val log = logsDataSet[position]
-        holder.textView.text = "${log.msg}\n\t${daterFormatter.formatDate(log.timestamp)}"
+        binding.text.text = "${log.msg}\n\t${daterFormatter.formatDate(log.timestamp)}"
     }
 }

@@ -23,9 +23,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.android.hilt.LogApplication
 import com.example.android.hilt.R
+import com.example.android.hilt.data.LoggerDataSource
 import com.example.android.hilt.data.LoggerLocalDataSource
+import com.example.android.hilt.databinding.FragmentButtonsBinding
+import com.example.android.hilt.databinding.FragmentLogsBinding
+import com.example.android.hilt.di.InMemoryLogger
 import com.example.android.hilt.navigator.AppNavigator
 import com.example.android.hilt.navigator.Screens
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,27 +42,32 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ButtonsFragment : Fragment(R.layout.fragment_buttons) {
 
-    @Inject lateinit var logger: LoggerLocalDataSource
-    @Inject lateinit var navigator: AppNavigator
+    @InMemoryLogger
+    @Inject
+    lateinit var logger: LoggerDataSource
+    @Inject
+    lateinit var navigator: AppNavigator
+
+    private val binding: FragmentButtonsBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.findViewById<Button>(R.id.button1).setOnClickListener {
+        binding.button1.setOnClickListener {
             logger.addLog("Interaction with 'Button 1'")
         }
 
-        view.findViewById<Button>(R.id.button2).setOnClickListener {
+        binding.button2.setOnClickListener {
             logger.addLog("Interaction with 'Button 2'")
         }
 
-        view.findViewById<Button>(R.id.button3).setOnClickListener {
+        binding.button3.setOnClickListener {
             logger.addLog("Interaction with 'Button 3'")
         }
 
-        view.findViewById<Button>(R.id.all_logs).setOnClickListener {
+        binding.allLogs.setOnClickListener {
             navigator.navigateTo(Screens.LOGS)
         }
 
-        view.findViewById<Button>(R.id.delete_logs).setOnClickListener {
+        binding.deleteLogs.setOnClickListener {
             logger.removeLogs()
         }
     }

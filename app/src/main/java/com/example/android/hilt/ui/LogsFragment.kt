@@ -30,9 +30,11 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.android.hilt.LogApplication
 import com.example.android.hilt.R
 import com.example.android.hilt.data.Log
+import com.example.android.hilt.data.LoggerDataSource
 import com.example.android.hilt.data.LoggerLocalDataSource
 import com.example.android.hilt.databinding.FragmentLogsBinding
 import com.example.android.hilt.databinding.TextRowItemBinding
+import com.example.android.hilt.di.InMemoryLogger
 import com.example.android.hilt.util.DateFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -44,8 +46,9 @@ import javax.inject.Inject
 class LogsFragment : Fragment(R.layout.fragment_logs) {
 
     //由 Hilt 注入的字段不能是私有字段
+    @InMemoryLogger
     @Inject
-    lateinit var logger: LoggerLocalDataSource
+    lateinit var logger: LoggerDataSource
 
     @Inject
     lateinit var dateFormatter: DateFormatter

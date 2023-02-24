@@ -16,7 +16,7 @@ import javax.inject.Singleton
  * DatabaseModule
  *
  * @author tiankang
- * @description:
+ * @description: provides 对应 object
  * @date :2023/2/22 10:36
  */
 @Module

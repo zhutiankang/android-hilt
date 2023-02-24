@@ -19,6 +19,9 @@ package com.example.android.hilt
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
+/**
+ * 告诉hilt如何生成
+ */
 @HiltAndroidApp
 class LogApplication : Application() {
 

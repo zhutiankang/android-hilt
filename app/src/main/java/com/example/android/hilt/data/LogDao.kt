@@ -18,11 +18,13 @@ package com.example.android.hilt.data
 
 import android.database.Cursor
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 
 /**
  * Data access object to query the database.
+ * query 比较特殊 可以用sql语句进行增删改查
  */
 @Dao
 interface LogDao {
@@ -33,6 +35,11 @@ interface LogDao {
     @Insert
     fun insertAll(vararg logs: Log)
 
+    //删除单条数据
+    @Delete
+    fun delete(vararg log: Log)
+
+    //删除所有数据 room也有提供DeleteTable搭配RoomDatabase使用
     @Query("DELETE FROM logs")
     fun nukeTable()
 
